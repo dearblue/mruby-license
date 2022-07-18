@@ -1,0 +1,60 @@
+License terms collection for mruby
+==================================
+
+
+License terms for mruby
+-----------------------
+
+[AUTHORS]
+<%= Array(info.dig("mruby", "AUTHORS")).map { |e| %(\t#{e}) }.join("\n") %>
+[LICENSES]
+<%= Array(info.dig("mruby", "LICENSES")).map { |e| %(\t#{e}) }.join("\n") %>
+[TERMS]
+% info.dig("mruby", "TERMS").each do |(n, t)|
+	<%= n %>
+<%= t.chomp.gsub(/^(?!\s*$)/, "\t\t") %>
+% end
+% if info.dig("additional terms by build_config")
+
+
+License terms in additions by build_config
+------------------------------------------
+
+%   info.dig("additional terms by build_config").each do |(n, t)|
+<%= n %>
+<%= t.chomp.gsub(/^(?!\s*$)/, "\t") %>
+%   end
+% end
+% if info.dig("mruby gems")
+
+
+License terms for mruby gems
+----------------------------
+%   info.dig("mruby gems").each do |spec|
+
+### <%= spec.dig("NAME") %>
+
+%     spec.each_pair do |attr, val|
+[<%= attr %>]
+%       Array(val).each do |e|
+%         if e.kind_of?(String)
+	<%= e %>
+%         else # e is a Hash
+%           (n, d) = e
+	<%= n %>
+<%= d.gsub(/^(?!\s*$)/, "\t\t") %>
+%         end
+%       end
+%     end
+%   end
+% end
+
+
+About this file
+---------------
+
+% info["about this file"].each do |(dt, dd)|
+[<%= dt %>]
+<%= dd.chomp.gsub(/^(?!\s*$)/, "\t") %>
+% end
+%# vim: set et sts=2 sw=2 ts=8 :

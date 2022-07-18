@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>License terms collection for mruby</title>
+<style type="text/css">
+  BODY { text-align: justify; line-height: 1.2; max-width: 72em; }
+  H1, H2, H3 { font-variant: small-caps; line-height: 2; break-after: avoid-page; }
+  H1 { border-bottom: 0.2em double; text-align: center; }
+  H2 { border-bottom: 0.1em solid; text-align: center; }
+  H3 { border-bottom: 0.1em dashed; margin-left: 4em; padding-left: 2em; }
+  DT { line-height: 2; font-weight: bold; break-after: avoid; }
+  PRE { white-space: pre-wrap; }
+  DL, DD, PRE { break-before: avoid-page; }
+  HR { width: 0; height: 0; border-right: 32em solid transparent; border-top: 0.3em solid; border-left: 0; border-bottom: 0; background: none; }
+</style>
+<link href="LICENSE.css" rel=stylesheet>
+</head>
+
+<body>
+
+<h1>License terms collection for mruby</h1>
+
+<div id="mruby">
+<h2 >License terms for mruby</h2>
+
+<dl class="mruby">
+<dt class="authors">AUTHORS</dt>
+<dd class="authors"><%= Array(info.dig("mruby", "AUTHORS")).map { |e| %(<span>#{e.to_html}</span>) }.join(", ") %></dd>
+
+<dt class="licenses">LICENSES</dt>
+<dd class="licenses"><%= Array(info.dig("mruby", "LICENSES")).map { |e| %(<span>#{e.to_html}</span>) }.join(", ") %></dd>
+
+<dt class="terms">TERMS</dt>
+<dd class="terms">
+<dl>
+% info.dig("mruby", "TERMS").each do |(n, t)|
+<dt class="path"><%= n.to_html %></dt>
+<dd class="entity"><pre><%= t.to_html %></pre></dd>
+% end
+</dl>
+</dd>
+</dl>
+</div>
+% if info.dig("additional terms by build_config")
+
+<div id="additions">
+<h2>License terms in additions by build_config</h2>
+
+<dl class="additionals">
+% info.dig("additional terms by build_config").each do |(n, t)|
+<dt class="path"><%= n.to_html %></dt>
+<dd class="entity"><pre><%= t.to_html %></pre></dd>
+% end
+</dl>
+</div>
+% end
+% if info.dig("mruby gems")
+
+<div id="gems">
+<h2>License terms for mruby gems</h2>
+<%= info.dig("mruby gems").to_html_for_terms(klass: "mruby-gems") %>
+</div>
+% end
+
+<div id="about">
+<h2>About this file</h2>
+
+<dl class="about">
+% info["about this file"].each do |(dt, dd)|
+%   cls = dt.downcase.gsub(/[\W]+/, "-")
+<dt class="<%= cls %>"><%= dt.to_html %></dt>
+<dd class="<%= cls %>"><%= dd.to_html %></dd>
+% end
+</dl>
+</div>
+%# vim: set et sts=2 sw=2 :
